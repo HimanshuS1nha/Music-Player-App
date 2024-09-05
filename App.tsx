@@ -9,12 +9,9 @@ import {
 } from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import tw from 'twrnc';
 
-import HomeScreen from './screens/HomeScreen';
-
-const Stack = createNativeStackNavigator();
+import StackNavigator from './navigators/StackNavigator';
 
 const App = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -81,9 +78,7 @@ const App = () => {
   }
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
-      </Stack.Navigator>
+      <StackNavigator />
     </NavigationContainer>
   );
 };
