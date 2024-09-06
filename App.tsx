@@ -10,11 +10,16 @@ import {
 import React, {useCallback, useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import tw from 'twrnc';
+import TrackPlayer from 'react-native-track-player';
 
 import StackNavigator from './navigators/StackNavigator';
 
 const App = () => {
   const [isMounted, setIsMounted] = useState(false);
+
+  const setupTrackPlayer = useCallback(async () => {
+    await TrackPlayer.setupPlayer();
+  }, []);
 
   const checkPermission = useCallback(async () => {
     const permissionStatus = await PermissionsAndroid.check(
@@ -22,6 +27,7 @@ const App = () => {
     );
 
     if (permissionStatus) {
+      await setupTrackPlayer();
       setIsMounted(true);
     }
   }, []);
@@ -32,6 +38,7 @@ const App = () => {
     );
 
     if (permissionStatus) {
+      await setupTrackPlayer();
       setIsMounted(true);
     } else {
       const requestPermissionStatus = await PermissionsAndroid.request(

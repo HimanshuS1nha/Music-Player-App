@@ -2,6 +2,7 @@ import {View, Text, Image, Pressable} from 'react-native';
 import React, {useCallback} from 'react';
 import tw from 'twrnc';
 import {PlayIcon} from 'react-native-heroicons/solid';
+import TrackPlayer from 'react-native-track-player';
 
 import type {SongType} from '../types';
 
@@ -11,6 +12,11 @@ const SongCard = ({song}: {song: SongType}) => {
 
     return `${parsedValue[0]}:${parsedValue[1]}`;
   }, []);
+
+  const handlePlay = useCallback(async () => {
+    await TrackPlayer.add(song);
+    await TrackPlayer.play();
+  }, [song]);
   return (
     <View style={tw`flex-row items-center justify-between px-2 mb-4`}>
       <View style={tw`flex-row items-center gap-x-5`}>
@@ -40,7 +46,7 @@ const SongCard = ({song}: {song: SongType}) => {
         </View>
       </View>
 
-      <Pressable style={tw`bg-green-600 rounded-full p-2`}>
+      <Pressable style={tw`bg-green-600 rounded-full p-2`} onPress={handlePlay}>
         <PlayIcon color={'white'} size={24} />
       </Pressable>
     </View>
