@@ -5,16 +5,10 @@ import {
   SortSongOrder,
 } from 'react-native-get-music-files';
 
+import type {SongType} from '../types';
+
 type UseSongsType = {
-  songs: {
-    url: string;
-    title: string;
-    album: string;
-    artist: string;
-    duration: number;
-    genre: string;
-    cover: string;
-  }[];
+  songs: SongType[];
   getSongs: () => Promise<boolean>;
 };
 
@@ -29,7 +23,7 @@ export const useSongs = create<UseSongsType>(set => ({
       sortBy: SortSongFields.TITLE,
       sortOrder: SortSongOrder.DESC,
     });
-  
+
     if (typeof songsOrError === 'string') {
       return false;
     }

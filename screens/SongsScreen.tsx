@@ -9,10 +9,12 @@ import {
 import React, {useCallback} from 'react';
 import tw from 'twrnc';
 import {PlayIcon} from 'react-native-heroicons/solid';
+import {FlashList} from '@shopify/flash-list';
 
 import Wrapper from '../components/Wrapper';
 import Header from '../components/Header';
 import {useSongs} from '../hooks/useSongs';
+import SongCard from '../components/SongCard';
 
 const SongsScreen = () => {
   const {songs} = useSongs();
@@ -60,28 +62,28 @@ const SongsScreen = () => {
           </ScrollView>
         </View>
 
-        <View style={tw`px-5 mt-8 gap-y-6`}>
+        <View style={tw`px-5 mt-8 gap-y-6 min-h-40`}>
           <Text style={tw`text-white text-lg font-semibold`}>
             List of songs
           </Text>
 
-          <View style={tw`flex-row items-center justify-between px-2`}>
+          {/* <View style={tw`flex-row items-center justify-between px-2`}>
             <View style={tw`flex-row items-center gap-x-5`}>
               <Image
-                source={{uri: songs[0].cover}}
+                source={{uri: songs?.[0]?.cover}}
                 style={tw`w-16 h-16 rounded-xl`}
               />
               <View style={tw`gap-y-1`}>
                 <Text style={tw`text-lg font-medium text-white`}>
-                  {songs[0].title}
+                  {songs?.[0]?.title}
                 </Text>
                 <View style={tw`gap-x-2 flex-row items-center`}>
                   <Text style={tw`text-gray-300 text-xs`}>
-                    {songs[0].artist}
+                    {songs?.[0]?.artist}
                   </Text>
                   <Text style={tw`text-gray-300 text-xs`}>/</Text>
                   <Text style={tw`text-gray-300 text-xs`}>
-                    {parseDuration(songs[0].duration)}
+                    {parseDuration(songs?.[0]?.duration)}
                   </Text>
                 </View>
               </View>
@@ -90,7 +92,16 @@ const SongsScreen = () => {
             <Pressable style={tw`bg-green-600 rounded-full p-2`}>
               <PlayIcon color={'white'} size={24} />
             </Pressable>
-          </View>
+          </View> */}
+
+          <FlashList
+            data={songs}
+            keyExtractor={(_, i) => i.toString()}
+            renderItem={({item}) => {
+              return <SongCard song={item} />;
+            }}
+            estimatedItemSize={100}
+          />
         </View>
       </ScrollView>
     </Wrapper>
