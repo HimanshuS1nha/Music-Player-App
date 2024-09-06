@@ -15,11 +15,13 @@ const SongCard = ({song}: {song: SongType}) => {
     <View style={tw`flex-row items-center justify-between px-2 mb-4`}>
       <View style={tw`flex-row items-center gap-x-5`}>
         <Image
-          source={{
-            uri:
-              song.cover ||
-              'https://t4.ftcdn.net/jpg/04/10/17/95/360_F_410179527_ExxSzamajaCtS16dyIjzBRNruqlU5KMA.jpg',
-          }}
+          source={
+            song.cover
+              ? {
+                  uri: song.cover,
+                }
+              : require('../assets/song-cover.jpg')
+          }
           style={tw`w-16 h-16 rounded-xl`}
         />
         <View style={tw`gap-y-1`}>
