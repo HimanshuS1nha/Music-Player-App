@@ -29,12 +29,11 @@ export const useSongs = create<UseSongsType>(set => ({
       sortBy: SortSongFields.TITLE,
       sortOrder: SortSongOrder.DESC,
     });
-
-    console.log(songsOrError);
-    // error
+  
     if (typeof songsOrError === 'string') {
       return false;
     }
+
     set({songs: songsOrError});
 
     return true;

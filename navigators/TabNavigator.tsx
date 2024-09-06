@@ -1,16 +1,29 @@
 import {View, Text} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {MusicalNoteIcon, StarIcon} from 'react-native-heroicons/solid';
 
 import SongsScreen from '../screens/SongsScreen';
 import FavouritesScreen from '../screens/FavouritesScreen';
+import {useSongs} from '../hooks/useSongs';
 
 const Tabs = createBottomTabNavigator();
 
 const TabNavigator = () => {
+  const {getSongs} = useSongs();
+
+  useEffect(() => {
+    getSongs();
+  }, []);
   return (
-    <Tabs.Navigator screenOptions={{headerShown: false}}>
+    <Tabs.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: {
+          backgroundColor: '#000',
+          borderColor: '#6b7280',
+        },
+      }}>
       <Tabs.Screen
         name="Songs"
         component={SongsScreen}
