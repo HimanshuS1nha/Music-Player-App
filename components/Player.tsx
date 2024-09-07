@@ -12,12 +12,14 @@ import {
   BackwardIcon,
   ForwardIcon,
 } from 'react-native-heroicons/solid';
+import {useNavigation} from '@react-navigation/native';
 
 import type {SongType} from '../types';
 
 const Player = () => {
   const activeTrack = useActiveTrack() as SongType;
   const playbackState = usePlaybackState();
+  const navigation = useNavigation();
 
   const parseDuration = useCallback((value: number) => {
     const parsedValue = (value / 60000).toFixed(2).toString().split('.');
@@ -47,8 +49,12 @@ const Player = () => {
     return null;
   }
   return (
-    <View
-      style={tw`bg-gray-800 p-4 mx-4 rounded-xl flex-row justify-between items-center mb-2`}>
+    <Pressable
+      style={tw`bg-gray-800 p-4 mx-4 rounded-xl flex-row justify-between items-center mb-2`}
+      onPress={() => {
+        // @ts-ignore
+        navigation.navigate('Song');
+      }}>
       <View style={tw`flex-row gap-x-3 items-center`}>
         <Image
           source={
@@ -93,7 +99,7 @@ const Player = () => {
           <ForwardIcon color={'white'} size={22} />
         </Pressable>
       </View>
-    </View>
+    </Pressable>
   );
 };
 
