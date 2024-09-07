@@ -28,7 +28,7 @@ const SongCard = ({song, index}: {song: SongType; index: number}) => {
       await TrackPlayer.skip(index);
       await TrackPlayer.play();
     }
-  }, [song]);
+  }, [index]);
 
   const handlePause = useCallback(async () => {
     await TrackPlayer.pause();
