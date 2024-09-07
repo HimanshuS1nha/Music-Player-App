@@ -6,6 +6,7 @@ import {
   Alert,
   BackHandler,
   Linking,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
@@ -13,9 +14,11 @@ import tw from 'twrnc';
 import TrackPlayer from 'react-native-track-player';
 
 import StackNavigator from './navigators/StackNavigator';
+import Wrapper from './components/Wrapper';
 
 const App = () => {
-  const [isMounted, setIsMounted] = useState(false);
+  const [isPermissionGranted, setIsPermissionGranted] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const setupTrackPlayer = useCallback(async () => {
     await TrackPlayer.setupPlayer();
@@ -28,8 +31,10 @@ const App = () => {
 
     if (permissionStatus) {
       await setupTrackPlayer();
-      setIsMounted(true);
+      setIsPermissionGranted(true);
     }
+
+    setIsLoading(false);
   }, []);
 
   const getPermission = useCallback(async () => {
@@ -39,14 +44,14 @@ const App = () => {
 
     if (permissionStatus) {
       await setupTrackPlayer();
-      setIsMounted(true);
+      setIsPermissionGranted(true);
     } else {
       const requestPermissionStatus = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.READ_MEDIA_AUDIO,
       );
 
       if (requestPermissionStatus === 'granted') {
-        setIsMounted(true);
+        setIsPermissionGranted(true);
       } else {
         Alert.alert('Error', 'This app needs media permission to work', [
           {
@@ -66,9 +71,17 @@ const App = () => {
     checkPermission();
   }, []);
 
-  if (!isMounted) {
+  if (isLoading) {
     return (
-      <View style={tw`flex-1 items-center justify-center gap-y-6`}>
+      <Wrapper style={tw`items-center justify-center`}>
+        <ActivityIndicator color={'blue'} size={45} />
+      </Wrapper>
+    );
+  }
+
+  if (!isLoading && !isPermissionGranted) {
+    return (
+      <Wrapper style={tw`items-center justify-center gap-y-6`}>
         <Text style={tw`text-rose-600 text-base font-medium`}>
           This app needs media permission to work
         </Text>
@@ -80,7 +93,7 @@ const App = () => {
             Grant Permission
           </Text>
         </Pressable>
-      </View>
+      </Wrapper>
     );
   }
   return (
