@@ -1,12 +1,19 @@
 import {View, Text, Image, Pressable} from 'react-native';
 import React, {useCallback} from 'react';
 import tw from 'twrnc';
-import {PlayIcon} from 'react-native-heroicons/solid';
-import TrackPlayer from 'react-native-track-player';
+import {PlayIcon, PauseIcon} from 'react-native-heroicons/solid';
+import TrackPlayer, {
+  usePlaybackState,
+  State,
+  useActiveTrack,
+} from 'react-native-track-player';
 
 import type {SongType} from '../types';
 
-const SongCard = ({song}: {song: SongType}) => {
+const SongCard = ({song, index}: {song: SongType; index: number}) => {
+  const activeTrack = useActiveTrack();
+  const playbackState = usePlaybackState();
+
   const parseDuration = useCallback((value: number) => {
     const parsedValue = (value / 60000).toFixed(2).toString().split('.');
 
@@ -14,9 +21,23 @@ const SongCard = ({song}: {song: SongType}) => {
   }, []);
 
   const handlePlay = useCallback(async () => {
-    await TrackPlayer.add(song);
-    await TrackPlayer.play();
+    // setIsPlaying(true);
+    // setCurrentSong(song);
+    // await TrackPlayer.add(song);
+    // await TrackPlayer.play();
+    const currentTrack = await TrackPlayer.getActiveTrackIndex();
+    console.log(currentTrack, index, currentTrack === index);
+    if (currentTrack === index) {
+      await TrackPlayer.play();
+    } else {
+      await TrackPlayer.skip(index);
+      await TrackPlayer.play();
+    }
   }, [song]);
+
+  const handlePause = useCallback(async () => {
+    await TrackPlayer.pause();
+  }, []);
   return (
     <View style={tw`flex-row items-center justify-between px-2 mb-4`}>
       <View style={tw`flex-row items-center gap-x-5`}>
@@ -46,8 +67,19 @@ const SongCard = ({song}: {song: SongType}) => {
         </View>
       </View>
 
-      <Pressable style={tw`bg-green-600 rounded-full p-2`} onPress={handlePlay}>
-        <PlayIcon color={'white'} size={24} />
+      <Pressable
+        style={tw`bg-green-600 rounded-full p-2`}
+        onPress={
+          playbackState.state === State.Playing && song.url === activeTrack?.url
+            ? handlePause
+            : handlePlay
+        }>
+        {playbackState.state === State.Playing &&
+        song.url === activeTrack?.url ? (
+          <PauseIcon color={'white'} size={24} />
+        ) : (
+          <PlayIcon color={'white'} size={24} />
+        )}
       </Pressable>
     </View>
   );

@@ -9,7 +9,7 @@ import type {SongType} from '../types';
 
 type UseSongsType = {
   songs: SongType[];
-  getSongs: () => Promise<boolean>;
+  getSongs: () => Promise<SongType[] | false>;
 };
 
 export const useSongs = create<UseSongsType>(set => ({
@@ -30,6 +30,6 @@ export const useSongs = create<UseSongsType>(set => ({
 
     set({songs: songsOrError});
 
-    return true;
+    return songsOrError;
   },
 }));

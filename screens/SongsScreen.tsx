@@ -6,24 +6,18 @@ import {
   ScrollView,
   Image,
 } from 'react-native';
-import React, {useCallback} from 'react';
+import React from 'react';
 import tw from 'twrnc';
-import {PlayIcon} from 'react-native-heroicons/solid';
 import {FlashList} from '@shopify/flash-list';
 
 import Wrapper from '../components/Wrapper';
 import Header from '../components/Header';
 import {useSongs} from '../hooks/useSongs';
 import SongCard from '../components/SongCard';
+import Player from '../components/Player';
 
 const SongsScreen = () => {
   const {songs} = useSongs();
-
-  const parseDuration = useCallback((value: number) => {
-    const parsedValue = (value / 60000).toFixed(2).toString().split('.');
-
-    return `${parsedValue[0]}:${parsedValue[1]}`;
-  }, []);
   return (
     <Wrapper>
       <ScrollView>
@@ -97,13 +91,15 @@ const SongsScreen = () => {
           <FlashList
             data={songs}
             keyExtractor={(_, i) => i.toString()}
-            renderItem={({item}) => {
-              return <SongCard song={item} />;
+            renderItem={({item, index}) => {
+              return <SongCard song={item} index={index} />;
             }}
             estimatedItemSize={100}
           />
         </View>
       </ScrollView>
+
+      <Player />
     </Wrapper>
   );
 };

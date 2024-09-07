@@ -5,16 +5,10 @@ import {MusicalNoteIcon, StarIcon} from 'react-native-heroicons/solid';
 
 import SongsScreen from '../screens/SongsScreen';
 import FavouritesScreen from '../screens/FavouritesScreen';
-import {useSongs} from '../hooks/useSongs';
 
 const Tabs = createBottomTabNavigator();
 
 const TabNavigator = () => {
-  const {getSongs} = useSongs();
-
-  useEffect(() => {
-    getSongs();
-  }, []);
   return (
     <Tabs.Navigator
       screenOptions={{
