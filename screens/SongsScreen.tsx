@@ -12,9 +12,9 @@ import {FlashList} from '@shopify/flash-list';
 
 import Wrapper from '../components/Wrapper';
 import Header from '../components/Header';
-import {useSongs} from '../hooks/useSongs';
 import SongCard from '../components/SongCard';
 import Player from '../components/Player';
+import {useSongs} from '../hooks/useSongs';
 
 const SongsScreen = () => {
   const {songs} = useSongs();
@@ -60,33 +60,6 @@ const SongsScreen = () => {
           <Text style={tw`text-white text-lg font-semibold`}>
             List of songs
           </Text>
-
-          {/* <View style={tw`flex-row items-center justify-between px-2`}>
-            <View style={tw`flex-row items-center gap-x-5`}>
-              <Image
-                source={{uri: songs?.[0]?.cover}}
-                style={tw`w-16 h-16 rounded-xl`}
-              />
-              <View style={tw`gap-y-1`}>
-                <Text style={tw`text-lg font-medium text-white`}>
-                  {songs?.[0]?.title}
-                </Text>
-                <View style={tw`gap-x-2 flex-row items-center`}>
-                  <Text style={tw`text-gray-300 text-xs`}>
-                    {songs?.[0]?.artist}
-                  </Text>
-                  <Text style={tw`text-gray-300 text-xs`}>/</Text>
-                  <Text style={tw`text-gray-300 text-xs`}>
-                    {parseDuration(songs?.[0]?.duration)}
-                  </Text>
-                </View>
-              </View>
-            </View>
-
-            <Pressable style={tw`bg-green-600 rounded-full p-2`}>
-              <PlayIcon color={'white'} size={24} />
-            </Pressable>
-          </View> */}
 
           <FlashList
             data={songs}

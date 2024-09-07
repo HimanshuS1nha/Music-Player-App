@@ -21,12 +21,7 @@ const SongCard = ({song, index}: {song: SongType; index: number}) => {
   }, []);
 
   const handlePlay = useCallback(async () => {
-    // setIsPlaying(true);
-    // setCurrentSong(song);
-    // await TrackPlayer.add(song);
-    // await TrackPlayer.play();
     const currentTrack = await TrackPlayer.getActiveTrackIndex();
-    console.log(currentTrack, index, currentTrack === index);
     if (currentTrack === index) {
       await TrackPlayer.play();
     } else {
