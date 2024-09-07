@@ -33,6 +33,16 @@ const Player = () => {
     await TrackPlayer.pause();
   }, []);
 
+  const handleSkipToPrevious = useCallback(async () => {
+    await TrackPlayer.skipToPrevious();
+    await TrackPlayer.play();
+  }, []);
+
+  const hanleSkipToNext = useCallback(async () => {
+    await TrackPlayer.skipToNext();
+    await TrackPlayer.play();
+  }, []);
+
   if (!activeTrack) {
     return null;
   }
@@ -67,7 +77,7 @@ const Player = () => {
       </View>
 
       <View style={tw`flex-row gap-x-3 items-center`}>
-        <Pressable>
+        <Pressable onPress={handleSkipToPrevious}>
           <BackwardIcon color={'white'} size={22} />
         </Pressable>
         {playbackState.state === State.Playing ? (
@@ -79,7 +89,7 @@ const Player = () => {
             <PlayIcon color={'white'} size={22} />
           </Pressable>
         )}
-        <Pressable>
+        <Pressable onPress={hanleSkipToNext}>
           <ForwardIcon color={'white'} size={22} />
         </Pressable>
       </View>
