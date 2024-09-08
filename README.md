@@ -8,6 +8,20 @@ Play your favourite song with our sleek music player app. Enjoy seamless playbac
 
 ![Music Player App 2](https://github.com/user-attachments/assets/978dc206-9b45-44bb-a027-6f52ca6bdcbf)
 
+## Get started
+
+1. Install dependencies
+
+   ```bash
+   npm install
+   ```
+
+2. Start the app
+
+   ```bash
+    npm run start
+   ```
+
 ## Features
 
 - Play songs
@@ -23,7 +37,7 @@ Play your favourite song with our sleek music player app. Enjoy seamless playbac
 
 ## Demo
 
-Live Demo - Coming Soon
+Live Demo - [Click Here](https://www.youtube.com/shorts/b5-yYJODD74)
 
 ## 🚀 About Me
 
