@@ -1,5 +1,5 @@
 import {View, Text, Image, Pressable} from 'react-native';
-import React, {useCallback, useState} from 'react';
+import React, {useCallback} from 'react';
 import tw from 'twrnc';
 import TrackPlayer, {
   useActiveTrack,
@@ -25,8 +25,6 @@ const SongScreen = () => {
   const activeTrack = useActiveTrack() as SongType;
   const playbackState = usePlaybackState();
   const progress = useProgress();
-
-  const [currentProgress, setCurrentProgress] = useState(progress.position);
 
   const handlePlay = useCallback(async () => {
     await TrackPlayer.play();
@@ -87,7 +85,7 @@ const SongScreen = () => {
             style={tw`w-[83%] h-3`}
             minimumTrackTintColor="#059669"
             maximumTrackTintColor="#d1d5db"
-            value={currentProgress}
+            value={progress.position}
             maximumValue={progress?.duration}
             minimumValue={0}
           />
