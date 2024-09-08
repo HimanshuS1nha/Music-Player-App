@@ -15,9 +15,13 @@ const SongCard = ({song, index}: {song: SongType; index: number}) => {
   const playbackState = usePlaybackState();
 
   const parseDuration = useCallback((value: number) => {
-    const parsedValue = (value / 60000).toFixed(2).toString().split('.');
+    const seconds = value / 1000;
 
-    return `${parsedValue[0]}:${parsedValue[1]}`;
+    return `${Math.floor(seconds / 60)}:${
+      Math.ceil(seconds % 60).toString().length === 1
+        ? '0' + Math.ceil(seconds % 60).toString()
+        : Math.ceil(seconds % 60)
+    }`;
   }, []);
 
   const handlePlay = useCallback(async () => {
