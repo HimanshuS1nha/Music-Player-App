@@ -6,14 +6,17 @@ import TrackPlayer, {RepeatMode} from 'react-native-track-player';
 
 import Wrapper from '../components/Wrapper';
 import {useSongs} from '../hooks/useSongs';
+import {useFavourties} from '../hooks/useFavourites';
 
 const SplashScreen = () => {
   const navigation = useNavigation();
   const {getSongs} = useSongs();
+  const {getFavourites} = useFavourties();
 
   useEffect(() => {
     getSongs().then(res => {
       if (res) {
+        getFavourites();
         TrackPlayer.add(res).then(() => {
           TrackPlayer.setRepeatMode(RepeatMode.Queue).then(() => {
             // @ts-ignore

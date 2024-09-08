@@ -7,9 +7,11 @@ import Wrapper from '../components/Wrapper';
 import Header from '../components/Header';
 import SongCard from '../components/SongCard';
 import Player from '../components/Player';
+import {useSongs} from '../hooks/useSongs';
 import {useFavourties} from '../hooks/useFavourites';
 
 const FavouritesScreen = () => {
+  const {songs} = useSongs();
   const {favourites} = useFavourties();
   return (
     <Wrapper>
@@ -25,8 +27,13 @@ const FavouritesScreen = () => {
           <FlashList
             data={favourites}
             keyExtractor={(_, i) => i.toString()}
-            renderItem={({item, index}) => {
-              return <SongCard song={item} index={index} />;
+            renderItem={({item}) => {
+              return (
+                <SongCard
+                  song={item}
+                  index={songs.findIndex(song => song.url === item.url)}
+                />
+              );
             }}
             estimatedItemSize={100}
           />
