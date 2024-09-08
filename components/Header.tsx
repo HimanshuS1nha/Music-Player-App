@@ -1,9 +1,17 @@
 import {View, Text, Pressable} from 'react-native';
-import React from 'react';
+import React, {useCallback} from 'react';
 import tw from 'twrnc';
-import {Cog8ToothIcon, ChevronLeftIcon} from 'react-native-heroicons/solid';
-import {HeartIcon} from 'react-native-heroicons/outline';
+import {
+  Cog8ToothIcon,
+  ChevronLeftIcon,
+  HeartIcon as FilledHeartIcon,
+} from 'react-native-heroicons/solid';
+import {HeartIcon as EmptyHeartIcon} from 'react-native-heroicons/outline';
 import {useNavigation} from '@react-navigation/native';
+import {useActiveTrack} from 'react-native-track-player';
+
+import {useFavourties} from '../hooks/useFavourites';
+import {SongType} from '../types';
 
 const Header = ({
   title,
@@ -12,7 +20,31 @@ const Header = ({
   title?: string;
   showBackButton?: boolean;
 }) => {
+  const {favourites, setFavourites} = useFavourties();
   const navigation = useNavigation();
+  const activeTrack = useActiveTrack() as SongType;
+
+  const addToFavourites = useCallback(async () => {
+    if (!activeTrack) {
+      return;
+    }
+
+    const newFavourites = [...favourites, {...activeTrack}];
+
+    await setFavourites(newFavourites);
+  }, [favourites, activeTrack]);
+
+  const removeFromFavourites = useCallback(async () => {
+    if (!activeTrack) {
+      return;
+    }
+
+    const newFavourites = favourites.filter(
+      favourite => favourite.url !== activeTrack.url,
+    );
+
+    await setFavourites(newFavourites);
+  }, [activeTrack, favourites]);
   return (
     <View style={tw`flex-row px-5 justify-between items-center pt-2`}>
       {showBackButton ? (
@@ -23,9 +55,19 @@ const Header = ({
         <Text style={tw`text-white text-2xl font-semibold`}>{title}</Text>
       )}
       {showBackButton ? (
-        <Pressable>
-          <HeartIcon color={'white'} size={24} />
-        </Pressable>
+        <>
+          {favourites
+            .map(favourite => favourite.url)
+            .includes(activeTrack?.url) ? (
+            <Pressable onPress={removeFromFavourites}>
+              <FilledHeartIcon color={'white'} size={24} fill={'red'} />
+            </Pressable>
+          ) : (
+            <Pressable onPress={addToFavourites}>
+              <EmptyHeartIcon color={'white'} size={24} />
+            </Pressable>
+          )}
+        </>
       ) : (
         <Pressable>
           <Cog8ToothIcon color={'white'} size={24} />

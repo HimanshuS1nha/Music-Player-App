@@ -29,6 +29,12 @@ const SongsScreen = () => {
             List of songs
           </Text>
 
+          {songs.length === 0 && (
+            <Text style={tw`text-rose-500 text-center text-base font-medium`}>
+              Nothing here.
+            </Text>
+          )}
+
           <FlashList
             data={songs}
             keyExtractor={(_, i) => i.toString()}
