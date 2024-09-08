@@ -1,16 +1,22 @@
 import {View, Text, Pressable} from 'react-native';
-import React from 'react';
+import React, {useCallback} from 'react';
 import tw from 'twrnc';
 
 import Wrapper from '../components/Wrapper';
 import Header from '../components/Header';
+import {useFavourties} from '../hooks/useFavourites';
 
 const SettingsScreen = () => {
+  const {setFavourites} = useFavourties();
+
+  const removeAllFavourites = useCallback(async () => {
+    await setFavourites([]);
+  }, []);
   return (
     <Wrapper>
       <Header showBackButton />
 
-      <Text style={tw`pt-7 text-white text-2xl font-medium text-center`}>
+      <Text style={tw`pt-4 text-white text-2xl font-medium text-center`}>
         Settings
       </Text>
 

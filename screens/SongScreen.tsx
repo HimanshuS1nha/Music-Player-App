@@ -21,8 +21,10 @@ import Slider from '@react-native-community/slider';
 import Wrapper from '../components/Wrapper';
 import Header from '../components/Header';
 import type {SongType} from '../types';
+import {useSongs} from '../hooks/useSongs';
 
 const SongScreen = () => {
+  const {songs} = useSongs();
   const activeTrack = useActiveTrack() as SongType;
   const playbackState = usePlaybackState();
   const progress = useProgress();
@@ -49,6 +51,13 @@ const SongScreen = () => {
 
   const handleSeekTo = useCallback(async (value: number) => {
     await TrackPlayer.seekTo(value);
+  }, []);
+
+  const handlePlayRandomSong = useCallback(async () => {
+    const randomIndex = Math.floor(Math.random() * songs.length);
+    console.log(randomIndex);
+    await TrackPlayer.skip(randomIndex);
+    await TrackPlayer.play();
   }, []);
 
   const handleMute = useCallback(async () => {
@@ -121,7 +130,7 @@ const SongScreen = () => {
         </View>
 
         <View style={tw`flex-row items-center justify-around w-full px-6`}>
-          <Pressable>
+          <Pressable onPress={handlePlayRandomSong}>
             <ArrowsRightLeftIcon color={'white'} size={24} />
           </Pressable>
           <Pressable onPress={handleSkipToPrevious}>
