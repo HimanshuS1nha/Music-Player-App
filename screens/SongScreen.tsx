@@ -78,7 +78,7 @@ const SongScreen = () => {
   }, []);
   return (
     <Wrapper>
-      <Header showBackButton />
+      <Header showBackButton showFavouritesButton />
 
       <View style={tw`mt-9 gap-y-6 items-center`}>
         <Image

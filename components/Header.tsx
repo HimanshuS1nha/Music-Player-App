@@ -16,9 +16,11 @@ import {SongType} from '../types';
 const Header = ({
   title,
   showBackButton = false,
+  showFavouritesButton = false,
 }: {
   title?: string;
   showBackButton?: boolean;
+  showFavouritesButton?: boolean;
 }) => {
   const {favourites, setFavourites} = useFavourties();
   const navigation = useNavigation();
@@ -54,7 +56,35 @@ const Header = ({
       ) : (
         <Text style={tw`text-white text-2xl font-semibold`}>{title}</Text>
       )}
-      {showBackButton ? (
+
+      <View style={tw`flex-row gap-x-4 items-center`}>
+        {showFavouritesButton && (
+          <>
+            {favourites
+              .map(favourite => favourite.url)
+              .includes(activeTrack?.url) ? (
+              <Pressable onPress={removeFromFavourites}>
+                <FilledHeartIcon color={'white'} size={24} fill={'red'} />
+              </Pressable>
+            ) : (
+              <Pressable onPress={addToFavourites}>
+                <EmptyHeartIcon color={'white'} size={24} />
+              </Pressable>
+            )}
+          </>
+        )}
+
+        {!showBackButton && (
+          <Pressable
+            onPress={() => {
+              // @ts-ignore
+              navigation.navigate('Settings');
+            }}>
+            <Cog8ToothIcon color={'white'} size={24} />
+          </Pressable>
+        )}
+      </View>
+      {/* {showBackButton ? (
         <>
           {favourites
             .map(favourite => favourite.url)
@@ -69,10 +99,14 @@ const Header = ({
           )}
         </>
       ) : (
-        <Pressable>
+        <Pressable
+          onPress={() => {
+            // @ts-ignore
+            navigation.navigate('Settings');
+          }}>
           <Cog8ToothIcon color={'white'} size={24} />
         </Pressable>
-      )}
+      )} */}
     </View>
   );
 };
