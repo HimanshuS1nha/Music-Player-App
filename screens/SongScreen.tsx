@@ -1,5 +1,5 @@
 import {View, Text, Image, Pressable} from 'react-native';
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import tw from 'twrnc';
 import TrackPlayer, {
   useActiveTrack,
@@ -14,6 +14,7 @@ import {
   ForwardIcon,
   ArrowsRightLeftIcon,
   SpeakerWaveIcon,
+  SpeakerXMarkIcon,
 } from 'react-native-heroicons/solid';
 import Slider from '@react-native-community/slider';
 
@@ -25,6 +26,8 @@ const SongScreen = () => {
   const activeTrack = useActiveTrack() as SongType;
   const playbackState = usePlaybackState();
   const progress = useProgress();
+
+  const [isMuted, setIsMuted] = useState(false);
 
   const handlePlay = useCallback(async () => {
     await TrackPlayer.play();
@@ -48,12 +51,30 @@ const SongScreen = () => {
     await TrackPlayer.seekTo(value);
   }, []);
 
+  const handleMute = useCallback(async () => {
+    if (isMuted) {
+      await TrackPlayer.setVolume(1);
+    } else {
+      await TrackPlayer.setVolume(0);
+    }
+
+    setIsMuted(prev => !prev);
+  }, [isMuted]);
+
   const parseDuration = useCallback((value: number) => {
     return `${Math.floor(value / 60)}:${
       Math.ceil(value % 60).toString().length === 1
         ? '0' + Math.ceil(value % 60).toString()
         : Math.ceil(value % 60)
     }`;
+  }, []);
+
+  useEffect(() => {
+    TrackPlayer.getVolume().then(volume => {
+      if (volume === 0) {
+        setIsMuted(true);
+      }
+    });
   }, []);
   return (
     <Wrapper>
@@ -118,8 +139,12 @@ const SongScreen = () => {
           <Pressable onPress={hanleSkipToNext}>
             <ForwardIcon color={'white'} size={30} />
           </Pressable>
-          <Pressable>
-            <SpeakerWaveIcon color={'white'} size={24} />
+          <Pressable onPress={handleMute}>
+            {isMuted ? (
+              <SpeakerXMarkIcon color={'white'} size={24} />
+            ) : (
+              <SpeakerWaveIcon color={'white'} size={24} />
+            )}
           </Pressable>
         </View>
       </View>

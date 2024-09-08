@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  TextInput,
-  Pressable,
-  ScrollView,
-  Image,
-} from 'react-native';
+import {View, Text, TextInput, ScrollView} from 'react-native';
 import React from 'react';
 import tw from 'twrnc';
 import {FlashList} from '@shopify/flash-list';
@@ -29,31 +22,6 @@ const SongsScreen = () => {
             placeholder="Search for songs..."
             placeholderTextColor={'#d1d5db'}
           />
-        </View>
-
-        <View style={tw`px-5 mt-8 gap-y-6`}>
-          <Text style={tw`text-white text-lg font-semibold`}>
-            Recently Played
-          </Text>
-
-          <ScrollView horizontal contentContainerStyle={tw`gap-x-4`}>
-            <Pressable>
-              <Image
-                source={{
-                  uri: 'https://i.scdn.co/image/ab67616d0000b27391b467ab179bd199b2fbc3d9',
-                }}
-                style={tw`w-40 h-40 rounded-lg`}
-              />
-            </Pressable>
-            <Pressable>
-              <Image
-                source={{
-                  uri: 'https://cdns-images.dzcdn.net/images/cover/5381a40a0df5172681c388876ea375c8/1900x1900-000000-80-0-0.jpg',
-                }}
-                style={tw`w-40 h-40 rounded-lg`}
-              />
-            </Pressable>
-          </ScrollView>
         </View>
 
         <View style={tw`px-5 mt-8 gap-y-6 min-h-40`}>
