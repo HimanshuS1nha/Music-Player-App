@@ -44,6 +44,10 @@ const SongScreen = () => {
     await TrackPlayer.play();
   }, []);
 
+  const handleSeekTo = useCallback(async (value: number) => {
+    await TrackPlayer.seekTo(value);
+  }, []);
+
   const parseDuration = useCallback((value: number) => {
     return `${Math.floor(value / 60)}:${
       Math.ceil(value % 60).toString().length === 1
@@ -88,6 +92,7 @@ const SongScreen = () => {
             value={progress.position}
             maximumValue={progress?.duration}
             minimumValue={0}
+            onValueChange={handleSeekTo}
           />
           <Text style={tw`text-white text-xs font-medium`}>
             {parseDuration(progress.duration)}
