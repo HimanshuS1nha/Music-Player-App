@@ -1,4 +1,4 @@
-import {View, Text} from 'react-native';
+import {Image, Text, ActivityIndicator} from 'react-native';
 import React, {useEffect} from 'react';
 import tw from 'twrnc';
 import {useNavigation} from '@react-navigation/native';
@@ -24,8 +24,13 @@ const SplashScreen = () => {
     });
   }, []);
   return (
-    <Wrapper>
-      <Text style={tw`text-white`}>SplashScreen</Text>
+    <Wrapper style={tw`items-center justify-center gap-y-7`}>
+      <Image
+        source={require('../assets/song-cover.jpg')}
+        style={tw`w-36 h-36 rounded-full`}
+      />
+      <Text style={tw`text-white text-2xl font-semibold`}>Music App</Text>
+      <ActivityIndicator size={45} color={'blue'} />
     </Wrapper>
   );
 };
