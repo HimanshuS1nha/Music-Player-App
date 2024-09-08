@@ -13,6 +13,7 @@ import {
   ForwardIcon,
 } from 'react-native-heroicons/solid';
 import {useNavigation} from '@react-navigation/native';
+import MarqueeView from 'react-native-marquee-view';
 
 import type {SongType} from '../types';
 
@@ -65,9 +66,11 @@ const Player = () => {
           style={tw`w-12 h-12 rounded-xl`}
         />
         <View style={tw`gap-y-1`}>
-          <Text style={tw`text-base font-medium text-white`}>
-            {activeTrack.title?.substring(0, 20)}
-          </Text>
+          <MarqueeView style={tw`w-44`}>
+            <Text style={tw`text-base font-medium text-white`}>
+              {activeTrack?.title}
+            </Text>
+          </MarqueeView>
           <View style={tw`gap-x-2 flex-row items-center`}>
             <Text style={tw`text-gray-300 text-xs`}>
               {activeTrack.artist !== '<unknown>'

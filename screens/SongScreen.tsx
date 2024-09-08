@@ -17,6 +17,7 @@ import {
   SpeakerXMarkIcon,
 } from 'react-native-heroicons/solid';
 import Slider from '@react-native-community/slider';
+import MarqueeView from 'react-native-marquee-view';
 
 import Wrapper from '../components/Wrapper';
 import Header from '../components/Header';
@@ -96,14 +97,16 @@ const SongScreen = () => {
               ? {uri: activeTrack?.cover}
               : require('../assets/song-cover.jpg')
           }
-          style={tw`w-[80%] h-[65%] rounded-xl`}
+          style={tw`w-[85%] h-[65%] rounded-xl`}
           resizeMode="stretch"
         />
 
-        <View style={tw`gap-y-2 items-center`}>
-          <Text style={tw`text-2xl font-medium text-white`}>
-            {activeTrack?.title.substring(0, 20)}
-          </Text>
+        <View style={tw`gap-y-2 items-center w-full`}>
+          <MarqueeView style={tw`w-[80%]`} speed={0.3}>
+            <Text style={tw`text-2xl font-medium text-white`}>
+              {activeTrack?.title}
+            </Text>
+          </MarqueeView>
           <Text style={tw`text-gray-300 text-xs`}>
             {activeTrack?.artist !== '<unknown>'
               ? activeTrack?.artist
